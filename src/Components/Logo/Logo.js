@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tilt } from 'react-tilt'
 import './Logo.css'
-import unicorn from './unicorn.png'
+import celebrity from './celebrity-2.png'
 
 const defaultOptions = {
 	reverse:        false,  // reverse the tilt direction
@@ -21,7 +21,7 @@ const Logo = () => {
         <div className="ma4 mt0">
             <Tilt className="Tilt br2 shadow-2" options={defaultOptions} style={{ height: 150, width: 150 }}>
                 <div className="Tilt-inner pa3">
-                    <img style={{paddingTop: '5px'}} src={unicorn} alt="book"/>
+                    <img style={{paddingTop: '5px'}} src={celebrity} alt="celebrity"/>
                 </div>
             </Tilt>
         </div>
