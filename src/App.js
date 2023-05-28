@@ -20,7 +20,7 @@ const initialState = {
       box:{},
       displayCelebrityList: false,
       celebrities:[],
-      route: 'signin',
+      route: 'home',
       isSignedIn: false,
       user: {
         id: '',
