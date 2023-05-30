@@ -1,0 +1,11 @@
+.failure-box{
+    margin-top: 50px;
+}
+
+.flex{
+    display:flex;
+}
+
+.flex img{
+    width: 100px;
+}
