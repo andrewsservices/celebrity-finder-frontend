@@ -16,7 +16,6 @@ import './App.css';
 const initialState = {
   input: "",
       imageUrl: "",
-      box:{},
       displayCelebrityList: false,
       celebrities:[],
       route: 'home',
@@ -64,10 +63,6 @@ class App extends Component{
 
     this.getCelebrityData(celebrityData)
 
-    const boxData = data.outputs[0].data.regions[0].region_info.bounding_box
-
-    this.setState({box:this.createFaceBox(boxData)})
-
   }
 
   getCelebrityData = (data) => {
@@ -76,24 +71,6 @@ class App extends Component{
 
   }
 
-
-  createFaceBox = (data) => {
-
-
-
-    const image = document.getElementById('inputImage')
-    console.log(image)
-
-    const width = Number(image.width);
-    const height = Number(image.height)
-
-    return {
-      leftCol: data.left_col * width,
-      topRow: data.top_row * height,
-      rightCol: width - (data.right_col * width),
-      bottomRow: height - (data.bottom_row * height)
-    }
-  }
 
 
   onButtonSubmit = () => {
@@ -109,6 +86,7 @@ class App extends Component{
         .then(response => response.json())
         .then(response=>{
           if(response){
+
             fetch('https://pure-wildwood-43456.herokuapp.com/image', {
               method:'put',
               headers:{'Content-Type': 'application/json'},
@@ -162,7 +140,6 @@ onRouteChange = (route) => {
             />
             <Results
               imageUrl={imageUrl}
-              box={box}
               celebrities = {celebrities}
             />
           </>
