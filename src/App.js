@@ -6,8 +6,7 @@ import Navigation from './Components/Navigation/Navigation';
 import Logo from './Components/Logo/Logo'
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm'
 import Rank from './Components/Rank/Rank'
-import CelebrityImage from './Components/CelebrityImage/CelebrityImage'
-import CelebrityList from './Components/CelebrityList/CelebrityList'
+import Results from './Components/Results/Results';
 import './App.css';
 
 
@@ -16,19 +15,20 @@ import './App.css';
 
 const initialState = {
   input: "",
-      imageUrl: "",
-      box:{},
-      displayCelebrityList: false,
-      celebrities:[],
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
+  imageUrl: "",
+  displayCelebrityList: false,
+  celebrities:[],
+  route: 'signin',
+  isSignedIn: false,
+  isLoading: false,
+  failedToLoad: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
 }
 
 class App extends Component{
@@ -65,10 +65,6 @@ class App extends Component{
 
     this.getCelebrityData(celebrityData)
 
-    const boxData = data.outputs[0].data.regions[0].region_info.bounding_box
-
-    this.setState({box:this.createFaceBox(boxData)})
-
   }
 
   getCelebrityData = (data) => {
@@ -78,27 +74,12 @@ class App extends Component{
   }
 
 
-  createFaceBox = (data) => {
-
-
-
-    const image = document.getElementById('inputImage')
-    console.log(image)
-
-    const width = Number(image.width);
-    const height = Number(image.height)
-
-    return {
-      leftCol: data.left_col * width,
-      topRow: data.top_row * height,
-      rightCol: width - (data.right_col * width),
-      bottomRow: height - (data.bottom_row * height)
-    }
-  }
-
 
   onButtonSubmit = () => {
-    this.setState({imageUrl:this.state.input})
+    this.setState({imageUrl:this.state.input,
+      isLoading:true,
+      failedToLoad:false
+    })
     fetch('https://pure-wildwood-43456.herokuapp.com/imageurl', {
               method:'post',
               headers:{'Content-Type': 'application/json'},
@@ -110,6 +91,7 @@ class App extends Component{
         .then(response => response.json())
         .then(response=>{
           if(response){
+            this.setState({isLoading:false})
             fetch('https://pure-wildwood-43456.herokuapp.com/image', {
               method:'put',
               headers:{'Content-Type': 'application/json'},
@@ -126,7 +108,13 @@ class App extends Component{
             .catch(console.log)
           }
           this.getData(response)})
-        .catch(error => console.log('error', error));
+        .catch(error => {
+          console.log('error', error)
+          this.setState({
+            isLoading:false,
+            failedToLoad:true
+          })
+        });
 
   }
 
@@ -140,8 +128,17 @@ onRouteChange = (route) => {
   this.setState({route:route})
 }
 
+clearForm = () => {
+  const inputForm = document.getElementById('input')
+  inputForm.value = ""
+  this.setState({
+    imageUrl: "",
+    failedToLoad: false
+  })
+}
+
   render(){
-     const {isSignedIn,imageUrl,box,celebrities,route} = this.state
+     const {isSignedIn,imageUrl,celebrities,route,isLoading,failedToLoad} = this.state
     return(
       <div className="App">
         <Particle/>
@@ -161,12 +158,12 @@ onRouteChange = (route) => {
               onInputChange={this.onInputChange}
               onButtonSubmit = {this.onButtonSubmit}
             />
-            <CelebrityImage
+            <Results
               imageUrl={imageUrl}
-              box={box}
-            />
-            <CelebrityList
+              isLoading={isLoading}
               celebrities = {celebrities}
+              failedToLoad={failedToLoad}
+              clearForm={this.clearForm}
             />
           </>
            :

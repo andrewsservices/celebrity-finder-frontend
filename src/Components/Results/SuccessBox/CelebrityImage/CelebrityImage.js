@@ -1,8 +1,8 @@
 import React from 'react';
-import './CelebrityImage.css'
 
 
-const CelebrityImage = ({imageUrl,box}) => {
+
+const CelebrityImage = ({imageUrl}) => {
 
     return(
         <div className="celebrity-image center ma">
@@ -10,7 +10,6 @@ const CelebrityImage = ({imageUrl,box}) => {
                 {imageUrl?
                     <>
                         <img className='celebrity-image' alt="faceImage" id="inputImage" src={imageUrl} width="auto" height="350px"/>
-                        <div className="bounding-box" style={{top: box.topRow,right: box.rightCol,bottom: box.bottomRow,left: box.leftCol}}></div>
                     </>
                     : ""
                 }
