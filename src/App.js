@@ -6,8 +6,7 @@ import Navigation from './Components/Navigation/Navigation';
 import Logo from './Components/Logo/Logo'
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm'
 import Rank from './Components/Rank/Rank'
-import CelebrityImage from './Components/CelebrityImage/CelebrityImage'
-import CelebrityList from './Components/CelebrityList/CelebrityList'
+import Results from './Components/Results/Results';
 import './App.css';
 
 
@@ -20,7 +19,7 @@ const initialState = {
       box:{},
       displayCelebrityList: false,
       celebrities:[],
-      route: 'signin',
+      route: 'home',
       isSignedIn: false,
       user: {
         id: '',
@@ -161,11 +160,9 @@ onRouteChange = (route) => {
               onInputChange={this.onInputChange}
               onButtonSubmit = {this.onButtonSubmit}
             />
-            <CelebrityImage
+            <Results
               imageUrl={imageUrl}
               box={box}
-            />
-            <CelebrityList
               celebrities = {celebrities}
             />
           </>
