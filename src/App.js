@@ -20,7 +20,7 @@ const initialState = {
       box:{},
       displayCelebrityList: false,
       celebrities:[],
-      route: 'home',
+      route: 'signin',
       isSignedIn: false,
       user: {
         id: '',
@@ -83,6 +83,8 @@ class App extends Component{
 
 
     const image = document.getElementById('inputImage')
+    console.log(image)
+
     const width = Number(image.width);
     const height = Number(image.height)
 
