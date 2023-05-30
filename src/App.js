@@ -15,18 +15,20 @@ import './App.css';
 
 const initialState = {
   input: "",
-      imageUrl: "",
-      displayCelebrityList: false,
-      celebrities:[],
-      route: 'home',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
+  imageUrl: "",
+  displayCelebrityList: false,
+  celebrities:[],
+  route: 'signin',
+  isSignedIn: false,
+  isLoading: false,
+  failedToLoad: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
 }
 
 class App extends Component{
@@ -74,7 +76,10 @@ class App extends Component{
 
 
   onButtonSubmit = () => {
-    this.setState({imageUrl:this.state.input})
+    this.setState({imageUrl:this.state.input,
+      isLoading:true,
+      failedToLoad:false
+    })
     fetch('https://pure-wildwood-43456.herokuapp.com/imageurl', {
               method:'post',
               headers:{'Content-Type': 'application/json'},
@@ -86,7 +91,7 @@ class App extends Component{
         .then(response => response.json())
         .then(response=>{
           if(response){
-
+            this.setState({isLoading:false})
             fetch('https://pure-wildwood-43456.herokuapp.com/image', {
               method:'put',
               headers:{'Content-Type': 'application/json'},
@@ -103,7 +108,13 @@ class App extends Component{
             .catch(console.log)
           }
           this.getData(response)})
-        .catch(error => console.log('error', error));
+        .catch(error => {
+          console.log('error', error)
+          this.setState({
+            isLoading:false,
+            failedToLoad:true
+          })
+        });
 
   }
 
@@ -117,8 +128,17 @@ onRouteChange = (route) => {
   this.setState({route:route})
 }
 
+clearForm = () => {
+  const inputForm = document.getElementById('input')
+  inputForm.value = ""
+  this.setState({
+    imageUrl: "",
+    failedToLoad: false
+  })
+}
+
   render(){
-     const {isSignedIn,imageUrl,box,celebrities,route} = this.state
+     const {isSignedIn,imageUrl,celebrities,route,isLoading,failedToLoad} = this.state
     return(
       <div className="App">
         <Particle/>
@@ -140,7 +160,10 @@ onRouteChange = (route) => {
             />
             <Results
               imageUrl={imageUrl}
+              isLoading={isLoading}
               celebrities = {celebrities}
+              failedToLoad={failedToLoad}
+              clearForm={this.clearForm}
             />
           </>
            :

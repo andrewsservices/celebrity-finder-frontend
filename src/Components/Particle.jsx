@@ -33,12 +33,12 @@ function Particle(){
         },
         particles: {
             color: {
-                value: "#ffffff",
+                value: "#ead89d",
             },
             links: {
                 color: "#ffffff",
                 distance: 150,
-                enable: true,
+                enable: false,
                 opacity: 0.5,
                 width: 1,
             },
@@ -66,10 +66,10 @@ function Particle(){
                 value: 0.5,
             },
             shape: {
-                type: "circle",
+                type: "star",
             },
             size: {
-                value: { min: 1, max: 5 },
+                value: { min: 1, max: 10 },
             },
         },
         detectRetina: true,
