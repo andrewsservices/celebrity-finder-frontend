@@ -1,17 +1,16 @@
-import CelebrityImage from "./CelebrityImage/CelebrityImage";
-import CelebrityList from "./CelebrityList/CelebrityList";
+import LoadingBox from './LoadingBox/LoadingBox'
+import SuccessBox from "./SuccessBox/SuccessBox";
 
 function Results({imageUrl,box,celebrities}){
     return(
-        <>
-            <CelebrityImage
-              imageUrl={imageUrl}
-              box={box}
-            />
-            <CelebrityList
-              celebrities = {celebrities}
-            />
-        </>
+      <>
+        {/* <LoadingBox/> */}
+        <SuccessBox
+          imageUrl={imageUrl}
+          box={box}
+          celebrities={celebrities}
+        />
+      </>
     )
 }
 
