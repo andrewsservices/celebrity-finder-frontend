@@ -133,7 +133,8 @@ clearForm = () => {
   inputForm.value = ""
   this.setState({
     imageUrl: "",
-    failedToLoad: false
+    failedToLoad: false,
+    celebrities:[]
   })
 }
 

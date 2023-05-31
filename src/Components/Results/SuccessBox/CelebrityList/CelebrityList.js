@@ -9,7 +9,7 @@ const CelebrityList = ({celebrities}) => {
         <>
 
             {celebrities.length > 0 ?
-                        <div className="margin-top mw7 center bg-white br3 pa3 pa4-ns ba b--black-10">
+                        <div className="celebrity-list mw7 center br3 pa3 pa4-ns ba b--black-10">
                         <div className="mt2">
                             <p className="f3">
                                 Celebrity Software Results:
