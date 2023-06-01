@@ -1,5 +1,5 @@
 import FailureBox from './FailureBox/FailureBox';
-import LoadingBox from './LoadingBox/LoadingBox'
+import LoadingBox from '../LoadingBox/LoadingBox'
 import SuccessBox from "./SuccessBox/SuccessBox";
 
 function Results({imageUrl,box,celebrities,isLoading,failedToLoad,clearForm}){

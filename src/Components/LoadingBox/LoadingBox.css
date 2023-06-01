@@ -1,5 +1,5 @@
 .loading-box-main-container{
-    height: 400px;
+    height: 250px;
 }
 
 .loading-box-container{
@@ -10,10 +10,9 @@
     align-items: center;
     width:100%;
     left: 50%;
-    height: 200px;
-    margin: 160px 0;
+
+    margin: 120px 0;
     transform: translate(-50%,-50%);
-    background: linear-gradient(19deg, #3EECAC 0%, #EE74E1 100%);
 }
 .progress{
     position: relative;

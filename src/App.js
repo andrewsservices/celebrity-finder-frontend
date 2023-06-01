@@ -14,14 +14,16 @@ import './App.css';
 
 
 const initialState = {
+  isLoading: false,
   input: "",
   imageUrl: "",
   displayCelebrityList: false,
   celebrities:[],
   route: 'signin',
   isSignedIn: false,
-  isLoading: false,
   failedToLoad: false,
+  displayLoginErrorForm:false,
+  emptyFields:false,
   user: {
     id: '',
     name: '',
@@ -60,7 +62,6 @@ class App extends Component{
 
 
   getData=(data)=>{
-
     const celebrityData = data.outputs[0].data.regions[0].data.concepts
 
     this.getCelebrityData(celebrityData)
@@ -119,13 +120,16 @@ class App extends Component{
   }
 
 onRouteChange = (route) => {
-
   if(route === 'signout'){
     this.setState(initialState)
   } else if (route === 'home'){
     this.setState({isSignedIn:true})
   }
-  this.setState({route:route})
+  this.setState({
+    route:route,
+    displayLoginErrorForm:false,
+    emptyFields:false
+  })
 }
 
 clearForm = () => {
@@ -138,8 +142,26 @@ clearForm = () => {
   })
 }
 
+setDisplayLoginErrorForm = () => {
+  this.setState({
+    displayLoginErrorForm:true
+  })
+}
+
+setRemoveLoginErrorForm = () => {
+  this.setState({
+    displayLoginErrorForm:false
+  })
+}
+
+setEmptyFields = () => {
+  this.setState({
+    emptyFields:true
+  })
+}
+
   render(){
-     const {isSignedIn,imageUrl,celebrities,route,isLoading,failedToLoad} = this.state
+     const {isSignedIn,imageUrl,celebrities,route,isLoading,failedToLoad,displayLoginErrorForm,emptyFields} = this.state
     return(
       <div className="App">
         <Particle/>
@@ -171,12 +193,19 @@ clearForm = () => {
            (
             this.state.route === 'signin' ?
             <SignIn
-            onRouteChange = {this.onRouteChange}
-            loadUser={this.loadUser}
+              onRouteChange = {this.onRouteChange}
+              loadUser={this.loadUser}
+              displayLoginErrorForm={displayLoginErrorForm}
+              setDisplayLoginErrorForm={this.setDisplayLoginErrorForm}
+              setRemoveLoginErrorForm={this.setRemoveLoginErrorForm}
+              emptyFields={emptyFields}
+              setEmptyFields={this.setEmptyFields}
           /> :
             <Register
-            onRouteChange={this.onRouteChange}
-            loadUser={this.loadUser}
+              onRouteChange={this.onRouteChange}
+              loadUser={this.loadUser}
+              emptyFields={emptyFields}
+              setEmptyFields={this.setEmptyFields}
             />
            )
 

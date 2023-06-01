@@ -1,0 +1,14 @@
+.error-screen{
+    margin: 160px auto;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ead89d70;
+}
+
+.flex{
+    display:flex;
+}
+
+.flex img{
+    width: 100px;
+}
