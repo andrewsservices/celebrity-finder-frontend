@@ -7,6 +7,7 @@ import Logo from './Components/Logo/Logo'
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm'
 import Rank from './Components/Rank/Rank'
 import Results from './Components/Results/Results';
+import LeaderBoad from './Components/LeaderBoard/LeaderBoard';
 import './App.css';
 
 
@@ -62,16 +63,37 @@ class App extends Component{
 
 
   getData=(data)=>{
-    const celebrityData = data.outputs[0].data.regions[0].data.concepts
-
-    this.getCelebrityData(celebrityData)
+    console.log(data)
+    if(data){
+      this.setState({isLoading:false})
+    }
+    if(data.outputs[0].data.regions.length === 1){
+      console.log("update count")
+      fetch('https://pure-wildwood-43456.herokuapp.com/image', {
+        method:'put',
+        headers:{'Content-Type': 'application/json'},
+        body:JSON.stringify({
+            id:this.state.user.id
+        })
+      })
+      .then(response=>response.json())
+      .then(count=> {
+        console.log(count)
+        this.setState(Object.assign(this.state.user,{
+          entries:count
+        }))
+      })
+      .catch(console.log)
+      const celebrityData = data.outputs[0].data.regions[0].data.concepts
+      this.getCelebrityData(celebrityData)
+    } else {
+      console.log("don't update count")
+    }
 
   }
 
   getCelebrityData = (data) => {
-
     this.setState({celebrities:data})
-
   }
 
 
@@ -91,32 +113,14 @@ class App extends Component{
 
         .then(response => response.json())
         .then(response=>{
-          if(response){
-            this.setState({isLoading:false})
-            fetch('https://pure-wildwood-43456.herokuapp.com/image', {
-              method:'put',
-              headers:{'Content-Type': 'application/json'},
-              body:JSON.stringify({
-                  id:this.state.user.id
-              })
-            })
-            .then(response=>response.json())
-            .then(count=> {
-              this.setState(Object.assign(this.state.user,{
-                entries:count
-              }))
-            })
-            .catch(console.log)
-          }
           this.getData(response)})
-        .catch(error => {
-          console.log('error', error)
-          this.setState({
-            isLoading:false,
-            failedToLoad:true
-          })
-        });
-
+          .catch(error => {
+            console.log('errorrrrr', error)
+            this.setState({
+              isLoading:false,
+              failedToLoad:true
+            })
+          });
   }
 
 onRouteChange = (route) => {
@@ -189,7 +193,11 @@ setEmptyFields = () => {
               clearForm={this.clearForm}
             />
           </>
-           :
+          :
+          route === 'leaderboard'
+          ?
+          <LeaderBoad/>
+          :
            (
             this.state.route === 'signin' ?
             <SignIn
