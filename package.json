@@ -2,7 +2,8 @@
   "name": "facialrecognition",
   "version": "0.1.0",
   "engines": {
-    "node": "20.5.0"
+    "node": "20.5.0",
+    "npm": "9.8.0"
   },
   "private": true,
   "dependencies": {
